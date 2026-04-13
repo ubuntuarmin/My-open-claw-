@@ -426,7 +426,7 @@ Templates are TOML files — **create your own** for any domain.
 </table>
 
 ### v0.3.0 — Production Intelligence *(New)*
-- **Hermes Agent Support** — native spawn target across NativeCliAdapter, tmux, and subprocess backends. Auto-inserts `chat` subcommand, tags spawned sessions with `--source tool` so they don't pollute the user's session list.
+- **Hermes Agent Support** — native spawn target across NativeCliAdapter, tmux, and subprocess backends. Auto-inserts `chat` subcommand and passes `--source tool` (session hygiene requires the upstream Hermes patch described in `skills/hermes/SKILL.md` — ClawTeam passes the flag correctly; Hermes ≤ 0.8.0 ignores it).
 - **Cost Dashboard** — real-time token/cost by agent, model, and task (`clawteam board cost`). No competitor has this.
 - **Circuit Breaker** — healthy → degraded → open tri-state with half-open probing
 - **Retry with Backoff** — `spawn_with_retry()` for resilient agent spawning
@@ -496,7 +496,7 @@ Hermes workers automatically inherit any MCP servers configured in `~/.hermes/co
 | **Parallelism** | Single session | Spawn N workers in tmux windows |
 | **Coordination** | Manual | Kanban + inboxes + task dependencies |
 | **Isolation** | Shared working dir | Git worktrees per agent |
-| **Session hygiene** | Mixes with user sessions | `--source tool` tag keeps them separate |
+| **Session hygiene** | Mixes with user sessions | `--source tool` tag passed to Hermes (requires upstream fix — see SKILL.md `Known upstream issues`) |
 
 **Using Hermes with ClawTeam:**
 
