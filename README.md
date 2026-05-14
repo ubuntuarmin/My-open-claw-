@@ -48,7 +48,8 @@ Works with [OpenClaw](https://openclaw.ai) (default), [Claude Code](https://clau
 ## Sovereign Web-Orchestrator Additions
 
 - Shared blackboard memory is now tracked in `/memory/shared_context.json` with required fields:
-  `design_dna`, `learned_user_preferences`, `component_registry`, `seo_matrix`, and `consensus_logs`.
+  `design_dna`, `learned_user_preferences`, `component_registry`, `seo_matrix`, `consensus_logs`,
+  and `thought_traces`.
 - Dialectic consensus logic is implemented in `/orchestrator/consensus.py` with a moderated,
   rebuttal-based debate loop (up to 3 rounds).
 - Worker jail and sanitization live in `/orchestrator/jailer.py` and enforce `/sandbox` output boundaries.

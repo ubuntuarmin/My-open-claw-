@@ -25,8 +25,9 @@ function App() {
   });
 
   useEffect(() => {
+    const stateUrl = window.__SOVEREIGN_STATE_URL__ || "/public/state.json";
     const load = async () => {
-      const response = await fetch("../public/state.json", { cache: "no-store" });
+      const response = await fetch(stateUrl, { cache: "no-store" });
       const payload = await response.json();
       setState(payload);
     };
@@ -47,8 +48,13 @@ function App() {
   };
 
   const runSafetyStop = async () => {
-    const command = (state && state.safety && state.safety.stopCommand) || "bin\\SOVEREIGN_STOP.bat";
-    await navigator.clipboard.writeText(command);
+    const command = (state && state.safety && state.safety.stopCommand) || "bin/SOVEREIGN_STOP.bat";
+    try {
+      await navigator.clipboard.writeText(command);
+    } catch (_error) {
+      window.alert(`Clipboard unavailable. Run manually:\n${command}`);
+      return;
+    }
     window.alert(
       `Manual stop copied to clipboard:\n${command}\n\nRun this locally in a terminal.`,
     );
@@ -112,7 +118,7 @@ function App() {
         React.createElement(
           "code",
           null,
-          (state && state.safety && state.safety.stopCommand) || "bin\\SOVEREIGN_STOP.bat",
+          (state && state.safety && state.safety.stopCommand) || "bin/SOVEREIGN_STOP.bat",
         ),
       ),
     ),

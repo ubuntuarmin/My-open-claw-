@@ -1,4 +1,6 @@
 sovereign:
+  # Hardware target for local scheduling/profile selection in sovereign runs.
+  # TODO: Wire gpu_target directly into orchestrator runtime selectors.
   gpu_target: "RTX 4070 Ti"
   sandbox_root: "./sandbox"
   shared_memory_path: "./memory/shared_context.json"

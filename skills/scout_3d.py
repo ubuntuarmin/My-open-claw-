@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 import urllib.request
 from dataclasses import dataclass
+from urllib.parse import urlparse
 
 
 @dataclass(slots=True)
@@ -24,15 +25,18 @@ class Scout3D:
     def __init__(self) -> None:
         self._crawler = self._build_crawler()
 
-    def _build_crawler(self):
+    def _build_crawler(self) -> object | None:
         try:
             from crawl4ai import Crawler
 
             return Crawler()
-        except Exception:
+        except (ImportError, AttributeError):
             return None
 
     def _fetch(self, url: str) -> str:
+        parsed = urlparse(url)
+        if parsed.scheme not in {"http", "https"}:
+            raise ValueError("Scout3D supports only http/https URLs")
         if self._crawler is not None:
             result = self._crawler.run(url=url)
             html = getattr(result, "html", "") or getattr(result, "content", "")

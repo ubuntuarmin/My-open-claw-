@@ -27,7 +27,7 @@ def test_shared_memory_initialize_and_trace(tmp_path: Path) -> None:
 
 
 @dataclass
-class FakeModel:
+class MockModel:
     name: str
     outputs: list[str]
 
@@ -38,9 +38,9 @@ class FakeModel:
 def test_consensus_engine_approves_human_grade(tmp_path: Path) -> None:
     memory = SharedMemoryEngine(path=tmp_path / "memory" / "shared_context.json")
     engine = DialecticConsensusEngine(memory=memory, max_rounds=3)
-    claude = FakeModel(name="claude", outputs=["Component draft"])
-    gemini = FakeModel(name="gemini", outputs=["Needs stronger heading hierarchy"])
-    deepseek = FakeModel(
+    claude = MockModel(name="claude", outputs=["Component draft"])
+    gemini = MockModel(name="gemini", outputs=["Needs stronger heading hierarchy"])
+    deepseek = MockModel(
         name="deepseek",
         outputs=["Approved as Human-Grade and lacks AI-slop."],
     )

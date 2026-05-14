@@ -8,9 +8,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 
 from clawteam.fileutil import atomic_write_text, file_locked
+from clawteam.team.models import get_data_dir
 
 
 class ThoughtTrace(BaseModel):
@@ -38,9 +39,9 @@ class SharedMemoryEngine:
     """Persistent JSON blackboard that every worker reads and writes."""
 
     def __init__(self, path: Path | None = None) -> None:
-        default = Path.cwd() / "memory" / "shared_context.json"
+        default = get_data_dir() / "memory" / "shared_context.json"
         configured = os.environ.get("CLAWTEAM_SHARED_MEMORY_PATH")
-        self.path = path or Path(configured) if configured else path or default
+        self.path = path or (Path(configured) if configured else default)
 
     def initialize(self) -> SharedContext:
         """Create the memory file if needed and return current context."""
@@ -59,7 +60,7 @@ class SharedMemoryEngine:
         try:
             data = json.loads(self.path.read_text(encoding="utf-8"))
             return SharedContext.model_validate(data)
-        except Exception:
+        except (json.JSONDecodeError, ValidationError):
             context = SharedContext()
             atomic_write_text(self.path, context.model_dump_json(indent=2))
             return context

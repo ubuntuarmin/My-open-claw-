@@ -20,7 +20,7 @@ class SentryTest:
     def run(self, url: str, duration_ms: int = 1200) -> SentryResult:
         try:
             from playwright.sync_api import sync_playwright
-        except Exception as exc:  # pragma: no cover - optional dependency path
+        except ImportError as exc:  # pragma: no cover - optional dependency path
             raise RuntimeError(
                 "Playwright is required for sentry checks. Install playwright and browser binaries."
             ) from exc
@@ -51,8 +51,17 @@ class SentryTest:
                 """
                 () => {
                   const findings = [];
-                  document.querySelectorAll('img:not([alt])').forEach((el) => {
-                    findings.push(`Missing alt attribute: ${el.outerHTML.slice(0, 120)}`);
+                  document.querySelectorAll('img').forEach((el) => {
+                    if (!el.hasAttribute('alt')) {
+                      findings.push(`Missing alt attribute: ${el.outerHTML.slice(0, 120)}`);
+                      return;
+                    }
+                    const alt = el.getAttribute('alt') || '';
+                    const isDecorative = el.getAttribute('role') === 'presentation' || el.getAttribute('aria-hidden') === 'true';
+                    const hiddenByAncestor = !!el.closest('[aria-hidden=\"true\"]');
+                    if (!isDecorative && !hiddenByAncestor && !alt.trim()) {
+                      findings.push(`Non-decorative image with empty alt text: ${el.outerHTML.slice(0, 120)}`);
+                    }
                   });
                   document.querySelectorAll('button:not([aria-label])').forEach((el) => {
                     if (!el.textContent?.trim()) {

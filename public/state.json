@@ -10,6 +10,6 @@
   },
   "safety": {
     "sandbox": "sandbox",
-    "stopCommand": "bin\\SOVEREIGN_STOP.bat"
+    "stopCommand": "bin/SOVEREIGN_STOP.bat"
   }
 }

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Protocol
@@ -124,8 +125,9 @@ class DialecticConsensusEngine:
             summary="Rejected component after max rebuttal rounds.",
             artifacts=[component_request],
         )
-        final_verdict = transcript[-1]["deepseek_verdict"] if transcript else "No verdict"
-        final_component = transcript[-1]["claude_proposal"] if transcript else proposal
+        last_entry = transcript[-1] if transcript else {}
+        final_verdict = last_entry.get("deepseek_verdict", "No verdict")
+        final_component = last_entry.get("claude_proposal", proposal)
         return DebateResult(
             approved=False,
             rounds=len(transcript),
@@ -137,6 +139,15 @@ class DialecticConsensusEngine:
 
 def _is_human_grade_approved(verdict: str) -> bool:
     lowered = verdict.lower()
-    has_human_grade = "human-grade" in lowered
-    has_no_slop = "lacks ai-slop" in lowered or "ai-slop: none" in lowered
+    has_human_grade = bool(re.search(r"\bhuman-grade\b", lowered))
+    has_no_slop = bool(re.search(r"\blacks ai-slop\b|\bai-slop:\s*none\b", lowered))
+    mentions_ai_slop = bool(re.search(r"\bcontains?\s+ai-slop\b|\bhas\s+ai-slop\b", lowered))
+    explicit_no_slop = bool(
+        re.search(r"\bcontains?\s+(?:no|zero)\s+ai-slop\b|\bwithout\s+ai-slop\b", lowered)
+    )
+    negated = bool(re.search(r"\bnot\s+human-grade\b", lowered)) or (
+        mentions_ai_slop and not explicit_no_slop
+    )
+    if negated:
+        return False
     return has_human_grade and has_no_slop
