@@ -1,0 +1,25 @@
+sovereign:
+  gpu_target: "RTX 4070 Ti"
+  sandbox_root: "./sandbox"
+  shared_memory_path: "./memory/shared_context.json"
+  dashboard_state_path: "./public/state.json"
+
+models:
+  architect:
+    provider: "local-ollama"
+    model: "deepseek-r1:70b"
+    role: "Architectural Audit/Moderation"
+    context_window: 32768
+  workers:
+    aesthetics_css:
+      provider: "anthropic"
+      model: "claude-3.5-sonnet"
+      role: "Aesthetics/CSS"
+    seo_content_logic:
+      provider: "google"
+      model: "gemini-1.5-pro"
+      role: "SEO/Content/Logic"
+    fallback:
+      provider: "openrouter"
+      model: "openrouter/auto"
+      role: "General Fallback"

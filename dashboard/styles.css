@@ -1,0 +1,82 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, system-ui, sans-serif;
+  background: #0b1020;
+  color: #ebefff;
+}
+body {
+  margin: 0;
+  background: radial-gradient(circle at top right, #1c2752, #0b1020 65%);
+}
+.shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+.panel {
+  background: rgba(15, 22, 45, 0.78);
+  border: 1px solid rgba(120, 143, 240, 0.35);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button.danger {
+  background: #ed4b5e;
+  color: #fff;
+  width: 100%;
+  font-size: 1rem;
+}
+button.primary {
+  background: #4c6fff;
+  color: #fff;
+}
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 5, 10, 0.86);
+  display: grid;
+  place-items: center;
+}
+.modal {
+  width: min(760px, 92vw);
+  max-height: 92vh;
+  overflow: auto;
+  background: #101835;
+  border: 1px solid rgba(120, 143, 240, 0.45);
+  border-radius: 12px;
+  padding: 16px;
+}
+.qa {
+  display: grid;
+  gap: 10px;
+}
+.qa input {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #33407f;
+  background: #070b1b;
+  color: #fff;
+  padding: 8px;
+}
+.log-list {
+  display: grid;
+  gap: 8px;
+}
+.log-item {
+  padding: 10px;
+  border-radius: 8px;
+  background: #0c1430;
+  border: 1px solid #273c87;
+}
+code {
+  background: #050a1d;
+  padding: 4px 6px;
+  border-radius: 6px;
+}

@@ -45,6 +45,18 @@ Works with [OpenClaw](https://openclaw.ai) (default), [Claude Code](https://clau
 - `board attach` still requires `tmux`, so on Windows prefer `clawteam board serve` for live monitoring.
 - If you want the original tmux workflow on Windows, run ClawTeam inside WSL.
 
+## Sovereign Web-Orchestrator Additions
+
+- Shared blackboard memory is now tracked in `/memory/shared_context.json` with required fields:
+  `design_dna`, `learned_user_preferences`, `component_registry`, `seo_matrix`, and `consensus_logs`.
+- Dialectic consensus logic is implemented in `/orchestrator/consensus.py` with a moderated,
+  rebuttal-based debate loop (up to 3 rounds).
+- Worker jail and sanitization live in `/orchestrator/jailer.py` and enforce `/sandbox` output boundaries.
+- Advanced sovereign worker skills are available in `/skills/`:
+  `scout_3d.py`, `forge_engine.py`, `seo_optimizer.py`, and `sentry_test.py`.
+- A client-only dashboard for GitHub Pages is available under `/dashboard` and reads status from `/public/state.json`.
+- Windows orchestration scripts are available in `/bin/SOVEREIGN_START.bat` and `/bin/SOVEREIGN_STOP.bat`.
+
 ---
 
 ## Why ClawTeam?
