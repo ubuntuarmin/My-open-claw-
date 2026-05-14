@@ -1,6 +1,6 @@
 """Sovereign web orchestrator modules."""
 
-from .consensus import DialecticConsensusEngine, DebateResult, ModelAdapter
+from .consensus import DebateResult, DialecticConsensusEngine, ModelAdapter
 from .jailer import CodeSanitizer, WorkerJailer
 from .shared_memory import SharedContext, SharedMemoryEngine
 

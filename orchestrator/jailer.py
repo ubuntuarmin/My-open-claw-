@@ -76,6 +76,8 @@ class WorkerJailer:
         """Resolve a worker-owned path inside the sandbox root."""
         validate_identifier(worker_name, "worker name")
         relative = Path(relative_path)
+        if relative.is_absolute() or ".." in relative.parts:
+            raise ValueError("Worker paths must stay relative inside the sandbox")
         return ensure_within_root(self.sandbox_root, worker_name, *relative.parts)
 
     def save_generated_code(self, worker_name: str, relative_path: str, source: str) -> Path:
