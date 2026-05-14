@@ -7,9 +7,14 @@ build/
 .eggs/
 *.egg
 .env
+.env.*
+*.env
 .venv/
 venv/
 uv.lock
 .claude/*.local.md
+*.pem
+*.key
+secrets*.json
 
 tmp/

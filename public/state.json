@@ -1,0 +1,15 @@
+{
+  "status": "online",
+  "lastUpdated": "",
+  "dialectic": {
+    "active": false,
+    "arguments": []
+  },
+  "sharedMemory": {
+    "path": "memory/shared_context.json"
+  },
+  "safety": {
+    "sandbox": "sandbox",
+    "stopCommand": "bin/SOVEREIGN_STOP.bat"
+  }
+}
